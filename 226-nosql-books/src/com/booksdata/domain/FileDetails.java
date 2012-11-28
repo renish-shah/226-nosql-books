@@ -5,16 +5,30 @@ package com.booksdata.domain;
 
 import java.util.ArrayList;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.basho.riak.client.convert.RiakIndex;
+
 /**
  * @author renis
  * 
  */
 public class FileDetails {
 
+	@JsonProperty
 	private String fileName;
+	
+	
+	@JsonProperty
 	private int noOfOccurance;
+	
+	@JsonProperty
 	private ArrayList<Integer> position;
+	
+	@JsonProperty
 	private double mean;
+	
+	@JsonProperty
 	private double stdev;
 
 	public String getFileName() {
