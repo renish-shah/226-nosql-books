@@ -17,13 +17,8 @@ public class FileDetails {
 
 	@JsonProperty
 	private String fileName;
-
-	@RiakIndex(name = "uri")
-	@JsonProperty
-	private int noOfOccurance;
-
-	@JsonProperty
-	private ArrayList<Integer> position;
+	private int noOfOccurance = 1;
+	private ArrayList<Integer> position = new ArrayList<Integer>();
 
 	@JsonProperty
 	private double mean;
@@ -48,6 +43,7 @@ public class FileDetails {
 	}
 
 	public ArrayList<Integer> getPosition() {
+		
 		return position;
 	}
 
