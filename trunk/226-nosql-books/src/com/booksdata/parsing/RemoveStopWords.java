@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.booksdata.domain.FileDetails;
+
 public class RemoveStopWords {
 
 
 	
-	public HashMap<String,Integer> clean(HashMap<String,Integer> matrix)
+	public HashMap<String, HashMap<String, FileDetails>> clean(HashMap<String, HashMap<String, FileDetails>> matrix)
 	{
 		List<String> stopWords = new ArrayList<String>();
 		try

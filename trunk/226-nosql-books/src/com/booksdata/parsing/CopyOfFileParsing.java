@@ -7,22 +7,23 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
+import com.booksdata.domain.AttributeWord;
 import com.booksdata.domain.FileDetails;
 
-public class FileParsing {
+public class CopyOfFileParsing {
 
 	/*
 	 * public static void main(String args[]) { parse(new
 	 * File("E:/books226/11.txt")); }
 	 */
-	static HashMap<String, HashMap<String, FileDetails>> words = new HashMap<String, HashMap<String, FileDetails>>();
+	static HashMap<String, FileDetails> words = new HashMap<String, FileDetails>();
 
-	public  HashMap<String, HashMap<String, FileDetails>> parse(File f) {
-	//public HashMap<String, HashMap<String, FileDetails>> parse(File[] listOfFiles) {
-		//for(File f:listOfFiles)
-		//{
-		//List<AttributeWord> words = new ArrayList<AttributeWord>();
+	public List<AttributeWord> parse(File f) {
+		// List<AttributeWord> words = new ArrayList<AttributeWord>();
 		HashMap<String, Integer> matrix = new HashMap<String, Integer>();
 		try {
 			FileInputStream fs = new FileInputStream(f);
@@ -31,8 +32,6 @@ public class FileParsing {
 			String line;
 
 			// String words[];// = new String[50];
-			String filename = f.getName();
-			System.out.println(filename);
 			int i = 0;
 			int pos = 0;
 			int count = 0;
@@ -45,17 +44,17 @@ public class FileParsing {
 			line = in.readLine();
 			line = in.readLine();
 			line = in.readLine();
-			//String title = line.substring(7);
-			//System.out.println(title);
+			String title = line.substring(7);
+			System.out.println(title);
 			line = in.readLine();
 			line = in.readLine();
-			//String author = line.substring(8);
-			//System.out.println(author);
+			String author = line.substring(8);
+			System.out.println(author);
 			line = in.readLine();
 			line = in.readLine();
 			line = in.readLine();
-			//String releaseDate = line.substring(14);
-			//System.out.println(releaseDate);
+			String releaseDate = line.substring(14);
+			System.out.println(releaseDate);
 
 			//ArrayList<AttributeWord> listOfAttributeWords = new ArrayList<AttributeWord>();
 			
@@ -76,61 +75,48 @@ public class FileParsing {
 					else 
 					{
 						word = word.toLowerCase();
-						//System.out.println(word);
-						HashMap<String, FileDetails> fileDetails = new HashMap<String, FileDetails>(); 
+						System.out.println(word);
+
 						FileDetails details = new FileDetails();
 						if (words.containsKey(word)) {
 							// details.setFileName("11");
-							details = words.get(word).get(filename);
-							if(details==null)
-							{
-								
-								words.get(word).put(filename, new FileDetails());
-								words.get(word).get(filename).setPosition(new ArrayList<Integer>());
-								details = words.get(word).get(filename);
-								if(details==null)
-								throw new Exception("details is null");
-							}
+							details = words.get(word);
 							details.getPosition().add(i);
-							//System.out.println();
 							details.setNoOfOccurance(details.getNoOfOccurance() + 1);
-							
 						} else {
-							details.setFileName(filename);
+							details.setFileName("11");
 							details.setNoOfOccurance(1);
 							details.getPosition().add(i);
-							fileDetails.put(filename, details);
-							words.put(word, fileDetails);
+							words.put(word, details);
 						}
+
+						/*
+						 * third attempt AttributeWord attributeWord=new
+						 * AttributeWord(); attributeWord.setWordName(word);
+						 * if(listOfAttributeWords.contains(attributeWord)){}
+						 * FileDetails fileDetails=new FileDetails();
+						 * ArrayList<FileDetails> listOfFiles=new
+						 * ArrayList<FileDetails>();
+						 * attributeWord.setWordName(word);
+						 * fileDetails.setFileName("11");
+						 * fileDetails.setNoOfOccurance(1);
+						 * fileDetails.setPosition(i);
+						 * listOfFiles.add(fileDetails);
+						 * attributeWord.setListOfFileDetails(listOfFiles);
+						 * listOfAttributeWords.add(attributeWord); i++;
+						 */
 					}
 					i++;
 				}
 			}
-			
-			/*System.out.println("********************************************");
-			System.out.println("Printing detials for file - " + filename );
-			try{
+
 			Iterator it = words.entrySet().iterator();
 			while (it.hasNext()) {
-				Map.Entry<String, HashMap<String,FileDetails>> pairs = (Map.Entry<String, HashMap<String,FileDetails>>) it.next();
+				Map.Entry<String, FileDetails> pairs = (Map.Entry<String, FileDetails>) it
+						.next();
 				System.out.println(pairs.getKey() + " = "
-						+ pairs.getValue().get(filename).getPosition());
+						+ pairs.getValue().getPosition());
 			}
-			}
-			catch(Exception ex)
-			{
-				System.out.println("error in printing");
-				ex.printStackTrace();
-			}*/
-			
-			System.out.println("End of file " + filename);
-			
-			/*System.out.println("occurance of have in 11.txt");
-			System.out.println(words.get("have").get("11.txt").getNoOfOccurance());
-			System.out.println("occurance of have in 12.txt");
-			System.out.println(words.get("have").get("12.txt").getNoOfOccurance());*/
-			
-			System.out.println("********************************************");
 
 			/*
 			 * part 2 starts {
@@ -218,9 +204,8 @@ public class FileParsing {
 			System.out.println("Error in parse");
 			e.printStackTrace();
 		}
-	//	}
 		// return matrix;
 		// return attributeWords;
-		return words;
+		return null;
 	}
 }
