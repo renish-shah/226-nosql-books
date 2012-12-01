@@ -30,7 +30,7 @@ public class RiakDbOperation {
 
 			IRiakClient riakClient = RiakFactory
 					.httpClient(HTTP_168_62_211_85_8098_RIAK);
-			riakClient.createBucket(TEST_BUCKET);
+			//riakClient.createBucket(TEST_BUCKET);
 			Bucket myBucket = riakClient.fetchBucket(TEST_BUCKET).execute();
 			
 			AttributeWord word=fillPojo("mother", "123.txt", 9,"34");
@@ -107,7 +107,7 @@ public class RiakDbOperation {
 	public static void main(String[] args) throws RiakException {
 
 		RiakDbOperation dbOperation = new RiakDbOperation();
-		List<String> abc = dbOperation.fetchIndex(TEST_BUCKET, "uri", "36");
+		List<String> abc = dbOperation.fetchIndex(TEST_BUCKET, "uri", "11");
 		//dbOperation.storeUsingPB();
 		System.out.println("Success");
 		

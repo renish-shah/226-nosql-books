@@ -17,17 +17,17 @@ public class FileDetails {
 
 	@JsonProperty
 	private String fileName;
-	
-	
+
+	@RiakIndex(name = "uri")
 	@JsonProperty
 	private int noOfOccurance;
-	
+
 	@JsonProperty
 	private ArrayList<Integer> position;
-	
+
 	@JsonProperty
 	private double mean;
-	
+
 	@JsonProperty
 	private double stdev;
 

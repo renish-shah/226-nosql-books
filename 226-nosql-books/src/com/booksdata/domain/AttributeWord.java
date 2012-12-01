@@ -14,16 +14,15 @@ public class AttributeWord {
 
 	@JsonProperty
 	private String wordName;
-	
-	@RiakIndex(name = "uri")
+
+	// @RiakIndex(name = "uri")
 	@JsonProperty
 	private String wordCount;
-	
-	@JsonProperty
+
+	//@RiakIndex(name = "uri")
+	//@JsonProperty
 	private List<FileDetails> fileDetails;
 
-	
-	
 	public String getWordCount() {
 		return wordCount;
 	}
