@@ -19,33 +19,36 @@ import com.basho.riak.client.query.indexes.IntIndex;
 import com.booksdata.domain.AttributeWord;
 import com.booksdata.domain.FileDetails;
 import com.booksdata.domain.JsonObject;
+import com.sun.org.apache.xml.internal.security.c14n.helper.AttrCompare;
 
 public class RiakDbOperation {
 
-	private static final String TEST_BUCKET = "TestBucket";
+	private static final String TEST_BUCKET = "TestBucket3";
 	private static final String HTTP_168_62_211_85_8098_RIAK = "http://168.62.211.85:8098/riak";
 
-	public void storeUsingPB() {
+	public void storeUsingPB(AttributeWord attributeWord) {
 		try {
 
 			IRiakClient riakClient = RiakFactory
 					.httpClient(HTTP_168_62_211_85_8098_RIAK);
-			//riakClient.createBucket(TEST_BUCKET);
+			// riakClient.createBucket(TEST_BUCKET);
 			Bucket myBucket = riakClient.fetchBucket(TEST_BUCKET).execute();
-			
-			AttributeWord word=fillPojo("mother", "123.txt", 9,"34");
-			myBucket.store(word.getWordName(), word).execute();
-			
-			word=fillPojo("father", "345.txt", 10,"35");
-			myBucket.store(word.getWordName(), word).execute();
-			
-			word=fillPojo("sister", "678.txt", 11,"36");
-			myBucket.store(word.getWordName(), word).execute();
+
+			myBucket.store(attributeWord.getWordName(), attributeWord).execute();
+
+			// AttributeWord word=fillPojo("mother", "123.txt", 9,"34");
+			// myBucket.store(word.getWordName(), word).execute();
+			//
+			// word=fillPojo("father", "345.txt", 10,"35");
+			// myBucket.store(word.getWordName(), word).execute();
+			//
+			// word=fillPojo("sister", "678.txt", 11,"36");
+			// myBucket.store(word.getWordName(), word).execute();
 
 			riakClient.shutdown();
 
 		} catch (Exception e) {
-
+			System.out.println("Exception: while inserting into RiakDB :"+e);
 		}
 	}
 
@@ -73,10 +76,11 @@ public class RiakDbOperation {
 			IRiakClient riakClient = RiakFactory
 					.httpClient(HTTP_168_62_211_85_8098_RIAK);
 
-			Bucket abc= riakClient.fetchBucket(bucket).execute();
-			return abc.fetchIndex(BinIndex.named(indexName)).withValue(indexValue).execute();
+			Bucket abc = riakClient.fetchBucket(bucket).execute();
+			return abc.fetchIndex(BinIndex.named(indexName))
+					.withValue(indexValue).execute();
 		} catch (RiakException e) {
-			System.out.println("Exception :"+e);
+			System.out.println("Exception :" + e);
 			throw new RuntimeException(e);
 		}
 
@@ -108,10 +112,9 @@ public class RiakDbOperation {
 
 		RiakDbOperation dbOperation = new RiakDbOperation();
 		List<String> abc = dbOperation.fetchIndex(TEST_BUCKET, "uri", "11");
-		//dbOperation.storeUsingPB();
+		// dbOperation.storeUsingPB();
 		System.out.println("Success");
-		
-		 
+
 		// dbOperation.retrievePojo();
 		// dbOperation.appendDetailsToWord();
 		// dbOperation.storePojo();
@@ -143,7 +146,8 @@ public class RiakDbOperation {
 
 	}
 
-	public AttributeWord fillPojo(String wordName, String fileName, int noOfOccurance, String wordCount) {
+	public AttributeWord fillPojo(String wordName, String fileName,
+			int noOfOccurance, String wordCount) {
 		AttributeWord word = new AttributeWord();
 		word.setWordName(wordName);
 
@@ -163,8 +167,8 @@ public class RiakDbOperation {
 		ArrayList<FileDetails> allFileDetails = new ArrayList<FileDetails>();
 		allFileDetails.add(fileDetails1);
 
-		word.setFileDetails(allFileDetails);
-		word.setWordCount(wordCount);
+		word.setListOfFileDetails(allFileDetails);
+		//word.setWordCount(wordCount);
 
 		return word;
 
@@ -192,7 +196,7 @@ public class RiakDbOperation {
 		ArrayList<FileDetails> allFileDetails = new ArrayList<FileDetails>();
 		allFileDetails.add(fileDetails1);
 
-		word.setFileDetails(allFileDetails);
+		word.setListOfFileDetails(allFileDetails);
 
 		IRiakClient riakClient = RiakFactory
 				.httpClient(HTTP_168_62_211_85_8098_RIAK);
@@ -235,9 +239,9 @@ public class RiakDbOperation {
 			// }
 
 			if (word != null) {
-				List<FileDetails> files = word.getFileDetails();
+				List<FileDetails> files = word.getListOfFileDetails();
 				files.add(addFileDetails());
-				word.setFileDetails(files);
+				word.setListOfFileDetails(files);
 				myBucket.store(word.getWordName(), word).execute();
 			}
 
