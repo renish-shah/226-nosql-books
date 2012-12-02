@@ -20,8 +20,10 @@ public class FileParsing {
 
 	public  HashMap<String, HashMap<String, FileDetails>> parse(File f) {
 	//public HashMap<String, HashMap<String, FileDetails>> parse(File[] listOfFiles) {
+		int fileCount = 0;
 		//for(File f:listOfFiles)
 		//{
+			//System.out.println("File count" + fileCount++);
 		//List<AttributeWord> words = new ArrayList<AttributeWord>();
 		HashMap<String, Integer> matrix = new HashMap<String, Integer>();
 		try {
@@ -77,30 +79,39 @@ public class FileParsing {
 					{
 						word = word.toLowerCase();
 						//System.out.println(word);
-						HashMap<String, FileDetails> fileDetails = new HashMap<String, FileDetails>(); 
+						 
 						FileDetails details = new FileDetails();
 						if (words.containsKey(word)) {
+							//if (word.equalsIgnoreCase("suffer")) {
 							// details.setFileName("11");
 							details = words.get(word).get(filename);
 							if(details==null)
 							{
-								
 								words.get(word).put(filename, new FileDetails());
 								words.get(word).get(filename).setPosition(new ArrayList<Integer>());
 								details = words.get(word).get(filename);
 								if(details==null)
 								throw new Exception("details is null");
 							}
-							details.getPosition().add(i);
-							//System.out.println();
-							details.setNoOfOccurance(details.getNoOfOccurance() + 1);
-							
+							words.get(word).get(filename).getPosition().add(i);
+							//details.getPosition().add(i);
+							//System.out.println(""+details.getPosition().get(1));
+							words.get(word).get(filename).setNoOfOccurance(words.get(word).get(filename).getNoOfOccurance()+1);
+							//details.setNoOfOccurance(details.getNoOfOccurance() + 1);
+							//words.get(word).put(filename, details);
+							//}
 						} else {
+							//if(word.equalsIgnoreCase("suffer")){
+							
+							HashMap<String, FileDetails> fileDetails = new HashMap<String, FileDetails>();
 							details.setFileName(filename);
 							details.setNoOfOccurance(1);
 							details.getPosition().add(i);
 							fileDetails.put(filename, details);
 							words.put(word, fileDetails);
+							fileDetails=null;
+							details=null;
+							//}
 						}
 					}
 					i++;
@@ -218,7 +229,7 @@ public class FileParsing {
 			System.out.println("Error in parse");
 			e.printStackTrace();
 		}
-	//	}
+		//}
 		// return matrix;
 		// return attributeWords;
 		return words;
