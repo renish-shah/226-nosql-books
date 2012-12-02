@@ -3,7 +3,6 @@
  */
 package com.booksdata.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,22 +14,9 @@ public class ListOfWords {
 	/**
 	 * @param args
 	 */
+	private List<AttributeWord> listOfWords;
 
-	/*private static ListOfWords instance;
-	public static ListOfWords getInstance()
-	{
-		if(instance==null)
-		instance=new ListOfWords();
-		return instance;
-	}
-	*/
-	
-	
-	private static List<AttributeWord> listOfWords;
-
-	public static List<AttributeWord> getListOfWords() {
-		if(listOfWords==null)
-		listOfWords = new ArrayList<AttributeWord>();
+	public List<AttributeWord> getListOfWords() {
 		return listOfWords;
 	}
 
@@ -38,5 +24,4 @@ public class ListOfWords {
 		this.listOfWords = listOfWords;
 	}
 
-	
 }
