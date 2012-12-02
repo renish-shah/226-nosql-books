@@ -16,35 +16,34 @@ public class AttributeWord {
 	private String wordName;
 
 	// @RiakIndex(name = "uri")
-	@JsonProperty
-	private String wordCount;
+	// @JsonProperty
+	// private String wordCount;
 
-	//@RiakIndex(name = "uri")
-	//@JsonProperty
-	private List<FileDetails> fileDetails;
+	// @RiakIndex(name = "uri")
+	// @JsonProperty
+	private List<FileDetails> listOfFileDetails;
 
-	public String getWordCount() {
-		return wordCount;
-	}
-
-	public void setWordCount(String wordCount) {
-		this.wordCount = wordCount;
-	}
+	/*
+	 * public String getWordCount() { return wordCount; }
+	 * 
+	 * public void setWordCount(String wordCount) { this.wordCount = wordCount;
+	 * }
+	 */
 
 	public String getWordName() {
 		return wordName;
 	}
 
+	public List<FileDetails> getListOfFileDetails() {
+		return listOfFileDetails;
+	}
+
+	public void setListOfFileDetails(List<FileDetails> listOfFileDetails) {
+		this.listOfFileDetails = listOfFileDetails;
+	}
+
 	public void setWordName(String wordName) {
 		this.wordName = wordName;
-	}
-
-	public List<FileDetails> getFileDetails() {
-		return fileDetails;
-	}
-
-	public void setFileDetails(List<FileDetails> fileDetails) {
-		this.fileDetails = fileDetails;
 	}
 
 }
