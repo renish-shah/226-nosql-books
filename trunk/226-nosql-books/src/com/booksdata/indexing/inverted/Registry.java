@@ -1,15 +1,16 @@
-package gash.indexing.inverted;
+package com.booksdata.indexing.inverted;
 
-import gash.indexing.Document;
-import gash.indexing.KeyWord;
-import gash.indexing.stopwords.StopWords;
-import gash.indexing.stopwords.StopWordsFile;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+
+import com.booksdata.indexing.Document;
+import com.booksdata.indexing.KeyWord;
+import com.booksdata.indexing.stopwords.StopWords;
+import com.booksdata.indexing.stopwords.StopWordsFile;
 
 public class Registry {
 	public static final String sStopWords = "stop.words.file";

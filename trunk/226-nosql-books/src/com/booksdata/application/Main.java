@@ -151,8 +151,9 @@ public class Main {
 
 		Set<String> words = matrix.keySet();
 
-		RiakDbOperation dbOperation = new RiakDbOperation();
-		dbOperation.initDBProcess();
+		RiakDbOperation dbOperation = RiakDbOperation.getDBInstance();
+		
+		
 		for (String wordName : words) {
 			List<FileDetails> listOfFileDetails = new ArrayList<FileDetails>();
 			HashMap<String, FileDetails> matrixNew = matrix.get(wordName);
@@ -168,7 +169,7 @@ public class Main {
 			matrixNew = null;
 			fileNames = null;
 			// fileDetails=null;
-
+			
 			dbOperation.storeUsingProtoBuff(attributeWord);
 
 		}

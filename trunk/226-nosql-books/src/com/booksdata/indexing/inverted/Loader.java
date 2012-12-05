@@ -1,7 +1,6 @@
-package gash.indexing.inverted;
+package com.booksdata.indexing.inverted;
 
-import gash.indexing.Document;
-import gash.indexing.stopwords.StopWords;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,6 +9,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.booksdata.indexing.Document;
+import com.booksdata.indexing.stopwords.StopWords;
 
 public class Loader {
 	private StopWords ignore;

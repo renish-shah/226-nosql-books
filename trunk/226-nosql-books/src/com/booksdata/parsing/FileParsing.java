@@ -15,11 +15,11 @@ import com.booksdata.dboperation.RiakDbOperation;
 import com.booksdata.domain.AttributeWord;
 import com.booksdata.domain.FileDetails;
 
-
 public class FileParsing {
 
 	static HashMap<String, HashMap<String, FileDetails>> words = new HashMap<String, HashMap<String, FileDetails>>();
-	//SerializationDemo serializationDemo = new SerializationDemo();
+
+	// SerializationDemo serializationDemo = new SerializationDemo();
 
 	public void fillWordsFromDB(AttributeWord attributeWord) {
 		HashMap<String, FileDetails> fileHashMap = new HashMap<String, FileDetails>();
@@ -31,7 +31,8 @@ public class FileParsing {
 	}
 
 	public void doDBCheck(String word) {
-		RiakDbOperation dbOperation = new RiakDbOperation();
+		RiakDbOperation dbOperation = RiakDbOperation.getDBInstance();
+
 		AttributeWord attributeWord = null;
 		try {
 			for (String alphabet : dbOperation.alphabetA2I) {
@@ -77,16 +78,16 @@ public class FileParsing {
 	public HashMap<String, HashMap<String, FileDetails>> parse(File f,
 			boolean serializeFlag, boolean dbCheck) {
 
-/*		if (serializeFlag == true) {
-			words = serializationDemo.deserializeMatrix();
-			// new RiakDbOperation().
-
-		}
-*/
+		/*
+		 * if (serializeFlag == true) { words =
+		 * serializationDemo.deserializeMatrix(); // new RiakDbOperation().
+		 * 
+		 * }
+		 */
 		// public HashMap<String, HashMap<String, FileDetails>> parse(File[]
 		// listOfFiles) {
-//		int fileCount = 0;
-//		HashMap<String, Integer> matrix = new HashMap<String, Integer>();
+		// int fileCount = 0;
+		// HashMap<String, Integer> matrix = new HashMap<String, Integer>();
 		try {
 			FileInputStream fs = new FileInputStream(f);
 			DataInputStream ds = new DataInputStream(fs);
@@ -95,8 +96,8 @@ public class FileParsing {
 			String filename = f.getName();
 			System.out.println(filename);
 			int i = 0;
-//			int pos = 0;
-//			int count = 0;
+			// int pos = 0;
+			// int count = 0;
 			while ((line = in.readLine()) != null) {
 				String[] parts = line
 						.trim()
@@ -108,8 +109,8 @@ public class FileParsing {
 					if (word.equals("")) {
 					} else {
 						word = word.toLowerCase();
-						//Added by RENISH
-						if(dbCheck==true)
+						// Added by RENISH
+						if (dbCheck == true)
 							doDBCheck(word);
 						// System.out.println(word);
 

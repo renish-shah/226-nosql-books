@@ -1,4 +1,4 @@
-package gash.indexing;
+package com.booksdata.indexing;
 
 import java.util.ArrayList;
 import java.util.List;

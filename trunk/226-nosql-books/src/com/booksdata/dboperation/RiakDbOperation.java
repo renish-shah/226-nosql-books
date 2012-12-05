@@ -35,7 +35,18 @@ public class RiakDbOperation {
 	Bucket bucket_S2Z;
 	IRiakClient riakClient;
 
-	public RiakDbOperation() {
+	public static RiakDbOperation dbOperation;
+	
+	public static RiakDbOperation getDBInstance()
+	{
+		if(dbOperation==null)
+			return new RiakDbOperation();
+		else
+			return dbOperation;
+	}
+	
+	
+	private RiakDbOperation() {
 		initDBProcess();
 	}
 
@@ -45,6 +56,7 @@ public class RiakDbOperation {
 
 	public void initDBProcess() {
 
+		System.out.println("=== In initDBProcess ===");
 		alphabetA2I.add("a");
 		alphabetA2I.add("b");
 		alphabetA2I.add("c");
@@ -88,11 +100,14 @@ public class RiakDbOperation {
 	}
 
 	public void closeDBProcess() {
+		System.out.println("=== In closeDBProcess ===");
 		riakClient.shutdown();
 	}
 
 	public void storeUsingProtoBuff(AttributeWord attributeWord) {
 		try {
+			
+			//System.out.println("=== In storeUsingProtoBuff ===");
 			// RiakClient riakClient2 = new RiakClient(HOST, PORT);
 			// riakClient.createBucket(TEST_BUCKET);
 			boolean loopDontEnter = false;
@@ -102,6 +117,7 @@ public class RiakDbOperation {
 							.store(attributeWord.getWordName(), attributeWord)
 							.execute();
 					loopDontEnter = true;
+					break;
 				}
 			}
 
@@ -111,6 +127,7 @@ public class RiakDbOperation {
 						bucket_J2R.store(attributeWord.getWordName(),
 								attributeWord).execute();
 						loopDontEnter = true;
+						break;
 					}
 				}
 			}
@@ -121,6 +138,7 @@ public class RiakDbOperation {
 						bucket_S2Z.store(attributeWord.getWordName(),
 								attributeWord).execute();
 						loopDontEnter = true;
+						break;
 					}
 				}
 			}
