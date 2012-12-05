@@ -17,7 +17,13 @@ import com.booksdata.test.SerializationDemo;
 
 public class Main {
 
+	RiakDbOperation dbOperation;
+	
+	
+	
 	public static void main(String args[]) {
+		Main main = new Main();	
+		
 		FileParsing parser = new FileParsing();
 
 		HashMap<String, HashMap<String, FileDetails>> matrix = null;
@@ -28,12 +34,13 @@ public class Main {
 
 		int i = 1;
 		boolean serializeFlag=false;
+		boolean checkDBFlag=false;
 		for (File f : listOfFiles) {
 
 			// matrix = (HashMap<String, HashMap<String,
 			// FileDetails>>)parser.parse(listOfFiles);
 			matrix = (HashMap<String, HashMap<String, FileDetails>>) parser
-					.parse(f, serializeFlag, false);
+					.parse(f, serializeFlag, checkDBFlag);
 			// matrix = (HashMap<String, HashMap<String, FileDetails>>)
 			// parser.parse(new File("E:/books226/11.txt"));
 			// matrix = (HashMap<String, HashMap<String, FileDetails>>)
@@ -47,22 +54,26 @@ public class Main {
 			matrix = rm.clean(matrix);
 
 			if (i % 10 == 0) {
-
-				serializationDemo.serializeMatrix(matrix);
+				
+				main.calculateStdDev(matrix);
+				main.cnvrtMtrxToWrdInsertIntoDB(matrix);
+				
+				//serializationDemo.serializeMatrix(matrix);
 				System.out.println(matrix.keySet());
 				System.out.println(matrix.keySet().size());
 				matrix=null;
-				serializeFlag=true;
+				checkDBFlag=true;
+				//serializeFlag=true;
 			}
 			i++;
 		
 		}
 
 		//System.out.println("Matrix size is: " + matrix.size());
-		serializationDemo.deserializeMatrix();
-		Main main = new Main();
+		//serializationDemo.deserializeMatrix();
+		
 		main.calculateStdDev(matrix);
-		main.cnvrtMtrxToWrd(matrix);
+		main.cnvrtMtrxToWrdInsertIntoDB(matrix);
 		// matrix.get
 		//System.out.println("Book with high rank is : "
 			//	+ main.findBook("mimicry", matrix));
@@ -132,7 +143,7 @@ public class Main {
 
 	}
 
-	public void cnvrtMtrxToWrd(
+	public void cnvrtMtrxToWrdInsertIntoDB(
 			HashMap<String, HashMap<String, FileDetails>> matrix) {
 		AttributeWord attributeWord = new AttributeWord();
 
