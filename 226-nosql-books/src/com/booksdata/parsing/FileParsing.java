@@ -17,9 +17,12 @@ public class FileParsing {
 	SerializationDemo serializationDemo=new SerializationDemo();
 	
 
-	public  HashMap<String, HashMap<String, FileDetails>> parse(File f) {
+	public  HashMap<String, HashMap<String, FileDetails>> parse(File f, boolean serializeFlag) {
 		
-		words=serializationDemo.deserializeMatrix();
+		if(serializeFlag==true)
+		{
+			words=serializationDemo.deserializeMatrix();
+		}
 	//public HashMap<String, HashMap<String, FileDetails>> parse(File[] listOfFiles) {
 		int fileCount = 0;
 		HashMap<String, Integer> matrix = new HashMap<String, Integer>();
