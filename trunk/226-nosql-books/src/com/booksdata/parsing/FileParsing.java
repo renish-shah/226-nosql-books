@@ -14,7 +14,7 @@ import com.basho.riak.client.convert.ConversionException;
 import com.booksdata.dboperation.RiakDbOperation;
 import com.booksdata.domain.AttributeWord;
 import com.booksdata.domain.FileDetails;
-import com.booksdata.test.SerializationDemo;
+
 
 public class FileParsing {
 
@@ -85,8 +85,8 @@ public class FileParsing {
 */
 		// public HashMap<String, HashMap<String, FileDetails>> parse(File[]
 		// listOfFiles) {
-		int fileCount = 0;
-		HashMap<String, Integer> matrix = new HashMap<String, Integer>();
+//		int fileCount = 0;
+//		HashMap<String, Integer> matrix = new HashMap<String, Integer>();
 		try {
 			FileInputStream fs = new FileInputStream(f);
 			DataInputStream ds = new DataInputStream(fs);
@@ -95,8 +95,8 @@ public class FileParsing {
 			String filename = f.getName();
 			System.out.println(filename);
 			int i = 0;
-			int pos = 0;
-			int count = 0;
+//			int pos = 0;
+//			int count = 0;
 			while ((line = in.readLine()) != null) {
 				String[] parts = line
 						.trim()

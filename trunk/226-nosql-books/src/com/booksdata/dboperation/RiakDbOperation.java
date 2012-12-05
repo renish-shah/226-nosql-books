@@ -21,8 +21,8 @@ import com.booksdata.domain.JsonObject;
 
 public class RiakDbOperation {
 
-	private static final int PORT = 8098;
-	private static final String HOST = "168.62.211.85";
+//	private static final int PORT = 8098;
+//	private static final String HOST = "168.62.211.85";
 	public static final String TEST_BUCKET_A_I = "TestBucket-A-I";
 	public static final String TEST_BUCKET_J_R = "TestBucket-J-R";
 	public static final String TEST_BUCKET_S_Z = "TestBucket-S-Z";
@@ -191,7 +191,13 @@ public class RiakDbOperation {
 
 	public static void main(String[] args) throws RiakException {
 
+		
 		RiakDbOperation dbOperation = new RiakDbOperation();
+		dbOperation.emptyBucket(TEST_BUCKET_A_I);
+		dbOperation.emptyBucket(TEST_BUCKET_J_R);
+		dbOperation.emptyBucket(TEST_BUCKET_S_Z);
+		
+		
 		AttributeWord attributeWord = new AttributeWord();
 		attributeWord.setWordName("iRenish");
 		
@@ -392,7 +398,7 @@ public class RiakDbOperation {
 		try {
 			Bucket myBucket = riakClient.fetchBucket(bucketName).execute();
 			for (String key : myBucket.keys()) {
-				myBucket.delete(key);
+				myBucket.delete(key).execute();
 			}
 		} catch (RiakRetryFailedException e) {
 			// TODO Auto-generated catch block
