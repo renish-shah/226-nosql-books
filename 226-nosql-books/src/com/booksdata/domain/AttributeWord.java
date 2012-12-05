@@ -12,6 +12,7 @@ import com.basho.riak.client.convert.RiakIndex;
  */
 public class AttributeWord {
 
+	@RiakIndex(name = "uri")
 	@JsonProperty
 	private String wordName;
 
@@ -20,7 +21,7 @@ public class AttributeWord {
 	// private String wordCount;
 
 	// @RiakIndex(name = "uri")
-	// @JsonProperty
+	@JsonProperty
 	private List<FileDetails> listOfFileDetails;
 
 	/*

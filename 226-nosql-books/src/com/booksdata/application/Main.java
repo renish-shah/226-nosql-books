@@ -33,7 +33,7 @@ public class Main {
 			// matrix = (HashMap<String, HashMap<String,
 			// FileDetails>>)parser.parse(listOfFiles);
 			matrix = (HashMap<String, HashMap<String, FileDetails>>) parser
-					.parse(f, serializeFlag);
+					.parse(f, serializeFlag, false);
 			// matrix = (HashMap<String, HashMap<String, FileDetails>>)
 			// parser.parse(new File("E:/books226/11.txt"));
 			// matrix = (HashMap<String, HashMap<String, FileDetails>>)
@@ -156,7 +156,7 @@ public class Main {
 			fileNames = null;
 			// fileDetails=null;
 			
-			dbOperation.storeUsingPB(attributeWord);
+			dbOperation.storeUsingProtoBuff(attributeWord);
 			
 		}
 		dbOperation.closeDBProcess();

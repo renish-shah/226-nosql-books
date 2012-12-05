@@ -15,7 +15,6 @@ import com.basho.riak.client.query.MapReduceResult;
 import com.basho.riak.client.query.functions.NamedJSFunction;
 import com.basho.riak.client.query.indexes.BinIndex;
 import com.basho.riak.client.query.indexes.IntIndex;
-import com.basho.riak.pbc.RiakClient;
 import com.booksdata.domain.AttributeWord;
 import com.booksdata.domain.FileDetails;
 import com.booksdata.domain.JsonObject;
@@ -24,13 +23,13 @@ public class RiakDbOperation {
 
 	private static final int PORT = 8098;
 	private static final String HOST = "168.62.211.85";
-	private static final String TEST_BUCKET_A_I = "TestBucket-A-I";
-	private static final String TEST_BUCKET_J_R = "TestBucket-J-R";
-	private static final String TEST_BUCKET_S_Z = "TestBucket-S-Z";
-	private static final String HTTP_168_62_211_85_8098_RIAK = "http://168.62.211.85:8098/riak";
-	List<String> alphabetA2I = new ArrayList<String>();
-	List<String> alphabetsJ2R = new ArrayList<String>();
-	List<String> alphabetS2Z = new ArrayList<String>();
+	public static final String TEST_BUCKET_A_I = "TestBucket-A-I";
+	public static final String TEST_BUCKET_J_R = "TestBucket-J-R";
+	public static final String TEST_BUCKET_S_Z = "TestBucket-S-Z";
+	public static final String HTTP_168_62_211_85_8098_RIAK = "http://168.62.211.85:8098/riak";
+	public List<String> alphabetA2I = new ArrayList<String>();
+	public List<String> alphabetsJ2R = new ArrayList<String>();
+	public List<String> alphabetS2Z = new ArrayList<String>();
 	Bucket bucket_A2I;
 	Bucket bucket_J2R;
 	Bucket bucket_S2Z;
@@ -87,33 +86,44 @@ public class RiakDbOperation {
 			e.printStackTrace();
 		}
 	}
-	
-	public void closeDBProcess()
-	{
+
+	public void closeDBProcess() {
 		riakClient.shutdown();
 	}
 
-	public void storeUsingPB(AttributeWord attributeWord) {
+	public void storeUsingProtoBuff(AttributeWord attributeWord) {
 		try {
 			// RiakClient riakClient2 = new RiakClient(HOST, PORT);
 			// riakClient.createBucket(TEST_BUCKET);
-
+			boolean loopDontEnter = false;
 			for (String alphabet : alphabetA2I) {
 				if (attributeWord.getWordName().startsWith(alphabet)) {
-					bucket_A2I.store(attributeWord.getWordName(), attributeWord).execute();
+					bucket_A2I
+							.store(attributeWord.getWordName(), attributeWord)
+							.execute();
+					loopDontEnter = true;
 				}
 			}
-			for (String alphabet : alphabetsJ2R) {
-				if (attributeWord.getWordName().startsWith(alphabet)) {
-					bucket_J2R.store(attributeWord.getWordName(), attributeWord).execute();
+
+			if (loopDontEnter == false) {
+				for (String alphabet : alphabetsJ2R) {
+					if (attributeWord.getWordName().startsWith(alphabet)) {
+						bucket_J2R.store(attributeWord.getWordName(),
+								attributeWord).execute();
+						loopDontEnter = true;
+					}
 				}
 			}
-			for (String alphabet : alphabetS2Z) {
-				if (attributeWord.getWordName().startsWith(alphabet)) {
-					bucket_S2Z.store(attributeWord.getWordName(), attributeWord).execute();
+			if (loopDontEnter == false) {
+
+				for (String alphabet : alphabetS2Z) {
+					if (attributeWord.getWordName().startsWith(alphabet)) {
+						bucket_S2Z.store(attributeWord.getWordName(),
+								attributeWord).execute();
+						loopDontEnter = true;
+					}
 				}
 			}
-			
 			// AttributeWord word=fillPojo("mother", "123.txt", 9,"34");
 			// myBucket.store(word.getWordName(), word).execute();
 			// word=fillPojo("father", "345.txt", 10,"35");
@@ -144,14 +154,11 @@ public class RiakDbOperation {
 
 	}
 
-	public List<String> fetchIndex(final String bucket, final String indexName,
+	public AttributeWord fetchIndex(final String bucket, final String indexName,
 			final String indexValue) {
 		try {
-			IRiakClient riakClient = RiakFactory
-					.httpClient(HTTP_168_62_211_85_8098_RIAK);
-
-			Bucket abc = riakClient.fetchBucket(bucket).execute();
-			return abc.fetchIndex(BinIndex.named(indexName))
+			Bucket myBucket = riakClient.fetchBucket(bucket).execute();
+			return (AttributeWord) myBucket.fetchIndex(BinIndex.named(indexName))
 					.withValue(indexValue).execute();
 		} catch (RiakException e) {
 			System.out.println("Exception :" + e);
@@ -185,7 +192,21 @@ public class RiakDbOperation {
 	public static void main(String[] args) throws RiakException {
 
 		RiakDbOperation dbOperation = new RiakDbOperation();
-		List<String> abc = dbOperation.fetchIndex(TEST_BUCKET_A_I, "uri", "11");
+		AttributeWord attributeWord = new AttributeWord();
+		attributeWord.setWordName("iRenish");
+		
+		FileDetails fileDetails=new FileDetails();
+		fileDetails.setNoOfOccurance(20);
+		
+		List<FileDetails> details=new ArrayList<FileDetails>();
+		details.add(fileDetails);
+		
+		attributeWord.setListOfFileDetails(details);
+
+		//dbOperation.storeUsingPB(attributeWord);
+		//dbOperation.retrievePojo(TEST_BUCKET_A_I, "iRenish");
+		AttributeWord abc = dbOperation.fetchIndex(TEST_BUCKET_A_I, "uri",
+				"20");
 		// dbOperation.storeUsingPB();
 		System.out.println("Success");
 
@@ -347,13 +368,49 @@ public class RiakDbOperation {
 		}
 	}
 
-	public void retrievePojo() throws UnresolvedConflictException,
-			ConversionException, RiakException {
+	public AttributeWord checkWordIntoDB(String bucketName, String wordName) {
+		Bucket myBucket;
+		try {
+			myBucket = riakClient.fetchBucket(bucketName).execute();
+			for (String key : myBucket.keys()) {
+				if (key.equalsIgnoreCase(wordName)) {
+					return myBucket.fetch(wordName, AttributeWord.class)
+							.execute();
+				}
+			}
+		} catch (RiakRetryFailedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RiakException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-		IRiakClient riakClient = RiakFactory
-				.httpClient(HTTP_168_62_211_85_8098_RIAK);
-		Bucket myBucket = riakClient.fetchBucket(TEST_BUCKET_A_I).execute();
-		AttributeWord word = myBucket.fetch("christmas", AttributeWord.class)
+	public void emptyBucket(String bucketName) {
+		try {
+			Bucket myBucket = riakClient.fetchBucket(bucketName).execute();
+			for (String key : myBucket.keys()) {
+				myBucket.delete(key);
+			}
+		} catch (RiakRetryFailedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RiakException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public AttributeWord retrievePojo(String bucketName, String wordName)
+			throws UnresolvedConflictException, ConversionException,
+			RiakException {
+
+		Bucket myBucket = riakClient.fetchBucket(bucketName).execute();
+
+		AttributeWord word = myBucket.fetch(wordName, AttributeWord.class)
 				.execute();
 
 		System.out.println("" + word.getWordName());
@@ -374,7 +431,7 @@ public class RiakDbOperation {
 		// System.out.println("foo :" + word.foo);
 		// System.out.println("foobar :" + word.foobar);
 
-		riakClient.shutdown();
+		// riakClient.shutdown();
+		return word;
 	}
-
 }
