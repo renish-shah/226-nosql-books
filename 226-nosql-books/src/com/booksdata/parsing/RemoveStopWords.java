@@ -29,6 +29,18 @@ public class RemoveStopWords {
 			stopWords.add(line);
 			matrix.remove(line);
 		}
+		HashMap<String, HashMap<String, FileDetails>> tempMatrix = new HashMap<String, HashMap<String, FileDetails>>();
+		for(String s : matrix.keySet())
+		{
+			 tempMatrix.put(s,matrix.get(s));
+		}
+		for (String word : tempMatrix.keySet())
+		{
+			if(word.length()<=2)
+			{
+				matrix.remove(word);
+			}
+		}
 		}
 		catch (Exception e)
 		{

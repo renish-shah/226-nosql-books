@@ -23,7 +23,7 @@ import com.sun.org.apache.xml.internal.security.c14n.helper.AttrCompare;
 
 public class RiakDbOperation {
 
-	private static final String TEST_BUCKET = "TestBucket3";
+	private static final String TEST_BUCKET = "TestBucket5";
 	private static final String HTTP_168_62_211_85_8098_RIAK = "http://168.62.211.85:8098/riak";
 
 	public void storeUsingPB(AttributeWord attributeWord) {
