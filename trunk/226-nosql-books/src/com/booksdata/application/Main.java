@@ -27,13 +27,13 @@ public class Main {
 		File[] listOfFiles = folder.listFiles();
 
 		int i = 1;
-
+		boolean serializeFlag=false;
 		for (File f : listOfFiles) {
 
 			// matrix = (HashMap<String, HashMap<String,
 			// FileDetails>>)parser.parse(listOfFiles);
 			matrix = (HashMap<String, HashMap<String, FileDetails>>) parser
-					.parse(f);
+					.parse(f, serializeFlag);
 			// matrix = (HashMap<String, HashMap<String, FileDetails>>)
 			// parser.parse(new File("E:/books226/11.txt"));
 			// matrix = (HashMap<String, HashMap<String, FileDetails>>)
@@ -52,18 +52,20 @@ public class Main {
 				System.out.println(matrix.keySet());
 				System.out.println(matrix.keySet().size());
 				matrix=null;
+				serializeFlag=true;
 			}
 			i++;
+		
 		}
 
-		System.out.println("Matrix size is: " + matrix.size());
+		//System.out.println("Matrix size is: " + matrix.size());
 		serializationDemo.deserializeMatrix();
 		Main main = new Main();
 		main.calculateStdDev(matrix);
 		main.cnvrtMtrxToWrd(matrix);
 		// matrix.get
-		System.out.println("Book with high rank is : "
-				+ main.findBook("mimicry", matrix));
+		//System.out.println("Book with high rank is : "
+			//	+ main.findBook("mimicry", matrix));
 
 		// System.out.println("occurance of join in 11.txt");
 		// System.out.println(matrix.get("doubt").get("11.txt").getPosition());
