@@ -2,7 +2,7 @@ package com.booksdata.application;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,28 +13,25 @@ import com.booksdata.domain.AttributeWord;
 import com.booksdata.domain.FileDetails;
 import com.booksdata.parsing.FileParsing;
 import com.booksdata.parsing.RemoveStopWords;
-import com.booksdata.test.SerializationDemo;
 
 public class Main {
 
 	RiakDbOperation dbOperation;
-	
-	
-	
+
 	public static void main(String args[]) {
-		Main main = new Main();	
-		
+		Main main = new Main();
+
 		FileParsing parser = new FileParsing();
 
 		HashMap<String, HashMap<String, FileDetails>> matrix = null;
-		SerializationDemo serializationDemo = new SerializationDemo();
+		// SerializationDemo serializationDemo = new SerializationDemo();
 
 		File folder = new File("E:/books226/test");
 		File[] listOfFiles = folder.listFiles();
 
 		int i = 1;
-		boolean serializeFlag=false;
-		boolean checkDBFlag=false;
+		boolean serializeFlag = false;
+		boolean checkDBFlag = false;
 		for (File f : listOfFiles) {
 
 			// matrix = (HashMap<String, HashMap<String,
@@ -54,29 +51,29 @@ public class Main {
 			matrix = rm.clean(matrix);
 
 			if (i % 10 == 0) {
-				
+
 				main.calculateStdDev(matrix);
 				main.cnvrtMtrxToWrdInsertIntoDB(matrix);
-				
-				//serializationDemo.serializeMatrix(matrix);
+
+				// serializationDemo.serializeMatrix(matrix);
 				System.out.println(matrix.keySet());
 				System.out.println(matrix.keySet().size());
-				matrix=null;
-				checkDBFlag=true;
-				//serializeFlag=true;
+				matrix = null;
+				checkDBFlag = true;
+				// serializeFlag=true;
 			}
 			i++;
-		
+
 		}
 
-		//System.out.println("Matrix size is: " + matrix.size());
-		//serializationDemo.deserializeMatrix();
-		
+		// System.out.println("Matrix size is: " + matrix.size());
+		// serializationDemo.deserializeMatrix();
+
 		main.calculateStdDev(matrix);
 		main.cnvrtMtrxToWrdInsertIntoDB(matrix);
 		// matrix.get
-		//System.out.println("Book with high rank is : "
-			//	+ main.findBook("mimicry", matrix));
+		// System.out.println("Book with high rank is : "
+		// + main.findBook("mimicry", matrix));
 
 		// System.out.println("occurance of join in 11.txt");
 		// System.out.println(matrix.get("doubt").get("11.txt").getPosition());
@@ -120,6 +117,9 @@ public class Main {
 
 	public void calculateStdDev(
 			HashMap<String, HashMap<String, FileDetails>> matrix) {
+
+		System.out.println("=== In calculateStdDev ===");
+
 		for (String s : matrix.keySet()) {
 			double ave = 0;
 			double sd = 0;
@@ -135,7 +135,7 @@ public class Main {
 					sd += Math.pow((ave - n), 2);
 				sd /= position.size();
 				sd = Math.sqrt(sd);
-				System.out.println("std dev is " + sd);
+				// System.out.println("std dev is " + sd);
 				matrix.get(s).get(f).setStdev(sd);
 			}
 		}
@@ -147,8 +147,10 @@ public class Main {
 			HashMap<String, HashMap<String, FileDetails>> matrix) {
 		AttributeWord attributeWord = new AttributeWord();
 
+		System.out.println("=== In cnvrtMtrxToWrdInsertIntoDB ===");
+
 		Set<String> words = matrix.keySet();
-		
+
 		RiakDbOperation dbOperation = new RiakDbOperation();
 		dbOperation.initDBProcess();
 		for (String wordName : words) {
@@ -166,10 +168,11 @@ public class Main {
 			matrixNew = null;
 			fileNames = null;
 			// fileDetails=null;
-			
+
 			dbOperation.storeUsingProtoBuff(attributeWord);
-			
+
 		}
+		attributeWord = null;
 		dbOperation.closeDBProcess();
 		// return attributeWord;
 	}
