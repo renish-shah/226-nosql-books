@@ -3,6 +3,7 @@
  */
 package com.booksdata.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -13,7 +14,7 @@ import com.basho.riak.client.convert.RiakIndex;
  * @author renis
  * 
  */
-public class FileDetails {
+public class FileDetails implements Serializable{
 
 	@JsonProperty
 	private String fileName;
