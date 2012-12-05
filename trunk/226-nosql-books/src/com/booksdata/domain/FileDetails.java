@@ -18,7 +18,12 @@ public class FileDetails implements Serializable{
 
 	@JsonProperty
 	private String fileName;
+	
+	//@RiakIndex(name = "uri")
+	@JsonProperty
 	private int noOfOccurance = 1;
+	
+	@JsonProperty
 	private ArrayList<Integer> position = new ArrayList<Integer>();
 
 	@JsonProperty
