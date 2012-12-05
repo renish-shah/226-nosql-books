@@ -1,4 +1,4 @@
-package gash.indexing.stopwords;
+package com.booksdata.indexing.stopwords;
 
 
 import java.io.BufferedReader;

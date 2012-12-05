@@ -1,4 +1,4 @@
-package gash.indexing;
+package com.booksdata.indexing;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -17,9 +17,6 @@ public class Document {
 	private Date date;
 	private long numWords;
 
-	// may want to count the words to know the strength of a word within a
-	// document. Also, separation (distance between words) can give us other
-	// metrics on the keywords
 	private HashMap<String, KeyWord> keywords = new HashMap<String, KeyWord>();
 
 	private HashMap<String, KeyWord> docIDs = new HashMap<String, KeyWord>();
@@ -54,13 +51,6 @@ public class Document {
 		return keywords.keySet();
 	}
 
-	/**
-	 * collect keywords by frequency
-	 * 
-	 * TODO use a euclidean distance for weighting word importance => clustering
-	 * 
-	 * @param w
-	 */
 	public void addKeyword(String w, int position) {
 		if (w == null || w.trim().length() == 0)
 			return;
@@ -75,14 +65,6 @@ public class Document {
 
 	}
 
-	/**
-	 * Examines if the two documents share keywords and returns a intersection
-	 * value (0-1.0) uses a weighted jaccard index by including the frequency of
-	 * word occurrences
-	 * 
-	 * @param doc
-	 * @return
-	 */
 	public double similarity(Document doc) {
 		if (keywords == null || doc.keywords == null)
 			return 0.0;
@@ -111,11 +93,6 @@ public class Document {
 		return r;
 	}
 
-	/**
-	 * ordered list of keywords by frequency of occurrence
-	 * 
-	 * @return
-	 */
 	public List<KeyWord> keywords() {
 		List<KeyWord> list = new ArrayList<KeyWord>(keywords.values());
 		Collections.sort(list, new Comparator<KeyWord>() {
