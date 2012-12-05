@@ -9,12 +9,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.booksdata.domain.FileDetails;
+import com.booksdata.test.SerializationDemo;
 
 public class FileParsing {
 
 	static HashMap<String, HashMap<String, FileDetails>> words = new HashMap<String, HashMap<String, FileDetails>>();
+	SerializationDemo serializationDemo=new SerializationDemo();
+	
 
 	public  HashMap<String, HashMap<String, FileDetails>> parse(File f) {
+		
+		words=serializationDemo.deserializeMatrix();
 	//public HashMap<String, HashMap<String, FileDetails>> parse(File[] listOfFiles) {
 		int fileCount = 0;
 		HashMap<String, Integer> matrix = new HashMap<String, Integer>();

@@ -37,20 +37,21 @@ public class SerializationDemo {
 			FileOutputStream fos = new FileOutputStream(SERIALIZE_MATRIX);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			//oos.writeObject(object1);
+			oos.reset();
 			oos.writeObject(matrix);
+			
 			oos.flush();
 			oos.close();
 		} catch (Exception e) {
 			System.out.println("Exception during serialization: " + e);
-			System.exit(0);
+			//System.exit(0);
 		}
 	}
 
-	public void deserializeMatrix() {
+	public HashMap<String, HashMap<String, FileDetails>> deserializeMatrix() {
 		// Object deserialization
 
 		try {
-			MyClass object2;
 			FileInputStream fis = new FileInputStream(SERIALIZE_MATRIX);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			HashMap<String, HashMap<String, FileDetails>> matrix=(HashMap<String, HashMap<String, FileDetails>>) ois.readObject();
@@ -63,11 +64,13 @@ public class SerializationDemo {
 			System.out.println("Integer:"+myclass.i);
 			System.out.println("Double:"+myclass.d);
 */			ois.close();
+			return matrix;
 			//System.out.println("object2: " + object2);
 		} catch (Exception e) {
 			System.out.println("Exception during deserialization: " + e);
 			System.exit(0);
 		}
+		return null;
 
 	}
 
