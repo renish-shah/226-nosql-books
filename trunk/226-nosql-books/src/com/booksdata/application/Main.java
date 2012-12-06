@@ -174,7 +174,7 @@ public class Main {
 
 		}
 		attributeWord = null;
-		dbOperation.closeDBProcess();
+		//dbOperation.closeDBProcess();
 		// return attributeWord;
 	}
 
