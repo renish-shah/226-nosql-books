@@ -45,13 +45,8 @@ public class RiakDbOperation {
 			return dbOperation;
 	}
 	
-	
 	private RiakDbOperation() {
 		initDBProcess();
-	}
-
-	public void storeAtoI(AttributeWord attributeWord, String testBucket) {
-
 	}
 
 	public void initDBProcess() {
