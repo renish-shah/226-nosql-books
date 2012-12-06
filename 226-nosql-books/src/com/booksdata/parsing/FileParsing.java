@@ -122,6 +122,7 @@ public class FileParsing {
 										.put(filename, new FileDetails());
 								words.get(word).get(filename)
 										.setPosition(new ArrayList<Integer>());
+								words.get(word).get(filename).setFileName(filename);
 								details = words.get(word).get(filename);
 								if (details == null)
 									throw new Exception("details is null");
